@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../../assets/movieLogo.png';
+import Logo from '../assets/movieLogo.png';
 import { useDispatch } from 'react-redux';
-import { setMoviePage } from '../../redux/paginationSlice';
+import { setMoviePage } from '../redux/paginationSlice';
 
 
 function NavBar() {

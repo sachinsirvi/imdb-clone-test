@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWatchList } from '../../context/WatchListContext';
+import { useWatchList } from '../context/WatchListContext';
 
 function MovieCard({ movie }) {
   const { watchList, setWatchList } = useWatchList();

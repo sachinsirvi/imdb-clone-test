@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useWatchList } from '../../context/WatchListContext';
-import genreMap from '../../genremap';
+import { useWatchList } from '../context/WatchListContext';
+import genreMap from '../genremap';
 
 function WatchList() {
   const { watchList, setWatchList } = useWatchList();

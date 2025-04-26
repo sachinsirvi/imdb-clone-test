@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react';
 import axios from 'axios';
-import image from '../../assets/bg.jpeg';
+import image from '../assets/bg.jpeg';
 
 
 

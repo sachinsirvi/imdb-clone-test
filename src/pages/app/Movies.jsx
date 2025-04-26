@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import MovieCard from './MovieCard';
-import Pagination from './Pagination';
+import MovieCard from '../../components/MovieCard';
+import Pagination from '../../components/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMoviePage } from '../../redux/paginationSlice';
-import AppLoader from '../components/Loader';
+import AppLoader from '../../components/Loader';
 
 function Movies({ addToWatchList, watchList }) {
   const moviePage = useSelector((state) => state.pagination.moviePage);

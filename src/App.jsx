@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import NavBar from './pages/app/NavBar';
-import WatchList from './pages/app/WatchList';
-import Home from './pages/app/Home';
+import NavBar from './components/NavBar';
+import WatchList from './components/WatchList';
+import Home from './components/Home';
 
 function App() {
 
