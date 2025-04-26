@@ -1,13 +1,12 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Logo from '../assets/movieLogo.png';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setMoviePage } from '../redux/paginationSlice';
-
 
 function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); 
 
   const handleLogoClick = () => {
     dispatch(setMoviePage(1));
@@ -15,17 +14,35 @@ function NavBar() {
   };
 
   return (
-    <div className='flex py-5 pl-1 space-x-8 items-center'>
-      <img
-        className="w-12 cursor-pointer"
-        src={Logo}
-        alt='logo'
-        onClick={handleLogoClick}
-      />
+    <div className="bg-gray-900 sticky top-0 z-50 shadow-md">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center py-4 px-6 space-y-4 md:space-y-0">
+        {/* Logo Section */}
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={handleLogoClick}>
+          <div className="text-yellow-400 text-3xl font-extrabold tracking-wider">
+            ViteFlix
+          </div>
+      
+        </div>
 
-      <div className='text-blue-600 font-bold space-x-8 text-2xl '>
-        <Link to="/" className='cursor-pointer inline-block transform transition-transform hover:scale-110 duration-300'> Movies </Link>
-        <Link to="/watchlist" className='cursor-pointer inline-block transform transition-transform hover:scale-105 duration-300'>WatchList</Link>
+        {/* Navigation Links */}
+        <div className="flex space-x-6 md:space-x-8 text-base md:text-lg font-semibold">
+          <Link
+            to="/"
+            className={`transition-transform transform hover:scale-110 duration-300 ${
+              location.pathname === '/' ? 'text-yellow-400' : 'text-white'
+            }`}
+          >
+            Movies
+          </Link>
+          <Link
+            to="/watchlist"
+            className={`transition-transform transform hover:scale-110 duration-300 ${
+              location.pathname === '/watchlist' ? 'text-yellow-400' : 'text-white'
+            }`}
+          >
+            Watchlist
+          </Link>
+        </div>
       </div>
     </div>
   );
