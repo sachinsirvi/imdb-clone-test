@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useWatchList } from '../context/WatchListContext';
 import genreMap from '../genremap';
-import Modal from '../components/Modal'; // ✅ Import Modal
+import Modal from '../components/Modal';
 
 function WatchList() {
   const { watchList, setWatchList } = useWatchList();
   const [search, setSearch] = useState('');
   const [genreList, setGenreList] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(['All Genres']);
-  const [selectedMovie, setSelectedMovie] = useState(null); // ✅ New
-  const [isModalOpen, setIsModalOpen] = useState(false); // ✅ New
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
+  const handleSearch = (e) => setSearch(e.target.value);
 
   const removeMovie = (id) => {
     const updated = watchList.filter((movie) => movie.id !== id);
@@ -21,30 +19,22 @@ function WatchList() {
   };
 
   const handleAscRatings = () => {
-    const sortedAsc = [...watchList].sort(
-      (a, b) => a.vote_average - b.vote_average
-    );
+    const sortedAsc = [...watchList].sort((a, b) => a.vote_average - b.vote_average);
     setWatchList(sortedAsc);
   };
 
   const handleDescRatings = () => {
-    const sortedDesc = [...watchList].sort(
-      (a, b) => b.vote_average - a.vote_average
-    );
+    const sortedDesc = [...watchList].sort((a, b) => b.vote_average - a.vote_average);
     setWatchList(sortedDesc);
   };
 
   const handleGenreClick = (genre) => {
     if (genre === 'All Genres') {
       setSelectedGenres(['All Genres']);
+    } else if (selectedGenres.includes(genre)) {
+      setSelectedGenres(selectedGenres.filter((g) => g !== genre));
     } else {
-      if (selectedGenres.includes('All Genres')) {
-        setSelectedGenres([genre]);
-      } else if (selectedGenres.includes(genre)) {
-        setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-      } else {
-        setSelectedGenres([...selectedGenres, genre]);
-      }
+      setSelectedGenres([...selectedGenres, genre]);
     }
   };
 
@@ -57,9 +47,7 @@ function WatchList() {
   }, [watchList]);
 
   const filteredMovies = watchList.filter((movie) => {
-    const matchesSearch = movie.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
+    const matchesSearch = movie.title.toLowerCase().includes(search.toLowerCase());
     const movieGenres = movie.genre_ids?.map((id) => genreMap[id]);
     const matchesGenre =
       selectedGenres.includes('All Genres') ||
@@ -97,11 +85,12 @@ function WatchList() {
         />
       </div>
 
-      {/* Watchlist Table */}
+      {/* Movie List */}
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6 text-center text-white">My Watchlist</h1>
 
-        <div className="overflow-x-auto rounded-lg">
+        {/* Table for medium and larger screens */}
+        <div className="hidden md:block overflow-x-auto rounded-lg">
           <table className="w-full text-left bg-gray-800 rounded-lg overflow-hidden">
             <thead className="bg-gray-700 text-white">
               <tr>
@@ -164,16 +153,58 @@ function WatchList() {
               ) : (
                 <tr>
                   <td colSpan="6" className="text-center text-gray-400 p-8">
-                    No movies found. Please adjust your filters or add movies to Watchlist.
+                    No movies found.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* Modal for showing trailer */}
+        {/* Cards for small screens */}
+        <div className="block md:hidden grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {filteredMovies.length > 0 ? (
+            filteredMovies.map((movie) => (
+              <div
+                key={movie.id}
+                onClick={() => {
+                  setSelectedMovie(movie);
+                  setIsModalOpen(true);
+                }}
+                className="bg-gray-800 rounded-lg overflow-hidden hover:scale-105 transform transition-all duration-300 cursor-pointer"
+              >
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  alt={movie.title}
+                  className="w-full h-60 object-cover"
+                />
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold mb-2">{movie.title}</h2>
+                  <p>⭐ {movie.vote_average?.toFixed(1)} | 🔥 {movie.popularity?.toLocaleString()}</p>
+                  <p className="text-sm mt-2">
+                    {movie.genre_ids?.map((id) => genreMap[id]).join(', ') || 'N/A'}
+                  </p>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeMovie(movie.id);
+                    }}
+                    className="mt-4 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-xl w-full"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-400 p-8">
+              No movies found.
+            </p>
+          )}
+        </div>
+      </div>
+      
+      {/* Modal */}
       {isModalOpen && (
         <Modal
           movie={selectedMovie}

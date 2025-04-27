@@ -8,6 +8,9 @@ function Modal({ movie, onClose }) {
   useEffect(() => {
     if (!movie) return;
 
+    // Lock background scroll
+    document.body.style.overflow = "hidden";
+
     const fetchTrailer = async () => {
       try {
         const response = await axios.get(
@@ -33,22 +36,27 @@ function Modal({ movie, onClose }) {
     };
 
     fetchTrailer();
+
+    // Unlock scroll when modal closes
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [movie]);
 
   if (!movie) return null;
 
   return (
     <div
-  id="modalBackdrop"
-  className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
-  onClick={(e) => {
-    if (e.target.id === 'modalBackdrop') {
-      onClose();
-    }
-  }}
->
-
-     <div className="bg-gray-900 rounded-lg p-6 max-w-2xl w-full text-gray-300 relative overflow-y-auto max-h-[90vh]">
+      id="modalBackdrop"
+      className="fixed inset-0 z-50 flex justify-center items-start bg-black bg-opacity-60 backdrop-blur-sm overflow-auto py-10 px-4"
+      onClick={(e) => {
+        if (e.target.id === 'modalBackdrop') {
+          onClose();
+        }
+      }}
+    >
+      <div className="bg-gray-900 rounded-2xl p-6 w-full max-w-2xl text-gray-300 relative overflow-hidden">
+        
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -57,34 +65,36 @@ function Modal({ movie, onClose }) {
           &times;
         </button>
 
-        {/* Movie Title */}
-        <h2 className="text-2xl font-bold mb-4 text-yellow-400">{movie.title}</h2>
+        {/* Scrollable Inner Content */}
+        <div className="max-h-[80vh] overflow-y-auto pr-2">
+          {/* Movie Title */}
+          <h2 className="text-2xl font-bold mb-4 text-yellow-400">{movie.title}</h2>
 
-        {/* Overview */}
-        <p className="mb-6">{movie.overview || "No description available."}</p>
+          {/* Overview */}
+          <p className="mb-6">{movie.overview || "No description available."}</p>
 
-        {/* Trailer Section */}
-        {loading ? (
-          <div className="flex justify-center items-center my-8">
-            <div className="w-12 h-12 border-4 border-yellow-400 border-dashed rounded-full animate-spin"></div>
-          </div>
-        ) : trailerKey ? (
+          {/* Trailer Section */}
+          {loading ? (
+            <div className="flex justify-center items-center my-8">
+              <div className="w-12 h-12 border-4 border-yellow-400 border-dashed rounded-full animate-spin"></div>
+            </div>
+          ) : trailerKey ? (
             <div className="w-full h-72 mb-6 overflow-hidden rounded-lg shadow-lg">
-            <iframe
-              src={`https://www.youtube.com/embed/${trailerKey}`}
-              title="Trailer"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full rounded-lg"
-            ></iframe>
-          </div>
-          
-        ) : (
-          <p className="text-center text-gray-400 mb-4">Trailer not available.</p>
-        )}
+              <iframe
+                src={`https://www.youtube.com/embed/${trailerKey}`}
+                title="Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-lg"
+              ></iframe>
+            </div>
+          ) : (
+            <p className="text-center text-gray-400 mb-4">Trailer not available.</p>
+          )}
+        </div>
 
         {/* Close Button Below */}
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-4">
           <button
             onClick={onClose}
             className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
