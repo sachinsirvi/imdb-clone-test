@@ -4,9 +4,17 @@ import axios from 'axios';
 function Banner() {
   const [movie, setMovie] = useState(null);
 
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
+  if (!API_KEY) {
+    console.error("TMDB API key is missing in Banner!");
+  }
+  
   useEffect(() => {
+    if (!API_KEY) return;
+  
     axios
-      .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
+      .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
       .then((response) => {
         const result = response.data.results[0];
         setMovie(result);
@@ -15,6 +23,7 @@ function Banner() {
         console.error('Error fetching trending movie:', error);
       });
   }, []);
+  
 
   if (!movie || !movie.backdrop_path) {
     return null;

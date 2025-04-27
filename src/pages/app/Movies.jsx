@@ -13,16 +13,24 @@ function Movies() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    setPageNo(moviePage);
-  }, [moviePage]);
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
+  if (!API_KEY) {
+    console.error("TMDB API key is missing!");
+  }
+  
   useEffect(() => {
     setLoading(true);
     setError(false);
-
+  
+    if (!API_KEY) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
+  
     axios
-      .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${pageNo}`)
+      .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&language=en-US&page=${pageNo}`)
       .then((response) => {
         setMovies(response.data.results);
         setLoading(false);
@@ -33,6 +41,7 @@ function Movies() {
         setError(true);
       });
   }, [pageNo]);
+  
 
   const handleNext = () => {
     const newPageNo = pageNo + 1;
