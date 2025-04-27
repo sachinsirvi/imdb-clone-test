@@ -1,22 +1,25 @@
-# 🎬 IMDb Clone
+# 🎬 ViteFlix
 
-Welcome to my **IMDb App Clone** 
-— a sleek, dark-themed web app built with **ReactJS**, **Redux Toolkit**, and **TailwindCSS**.
+Welcome to **ViteFlix** — a dark-themed, minimal web app built with **ReactJS**, **Redux Toolkit**, and **TailwindCSS**.
 
-Browse trending movies, build your personal watchlist, filter by genre, and enjoy a smooth, responsive experience across all devices.
+Browse trending movies, build your personal watchlist, filter by genre — all buttery smooth across devices.
+
+✅ **Live Demo:** 
+https://viteflixing.netlify.app/
+
 
 ---
 
-## What you’ll find inside:
+## Features
 
-- Trending Movies from TMDB API (updated daily)
-- Add to Watchlist or Remove movies anytime
-- Filter by Multiple Genres (because just one isn’t enough )
-- Quick Search to find your favorite movies
-- Pagination to explore more without endless scrolling
-- Dark Mode by default (because light mode is overrated)
-- Responsive Design (mobile, tablet, desktop — all covered)
-- Redux-powered State Management (your movie page stays remembered)
+- Browse trending movies (powered by TMDB API)
+- Add or remove movies from your Watchlist
+- Filter by multiple genres
+- Quick search to find favorites instantly
+- Pagination — explore more without endless scrolling
+- Dark mode by default (because why not?)
+- Fully responsive (mobile, tablet, desktop)
+- Redux-powered state management (your selections stay saved)
 
 ---
 
@@ -30,25 +33,8 @@ Browse trending movies, build your personal watchlist, filter by genre, and enjo
 - TMDB API
 
 ---
+## Notes
 
-
-
-## How to Run Locally
-
-1. Clone this repository:
-
-  git clone https://github.com/sachinsirvi/imdb-clone.git
-
-
-2. Install all dependencies:
-npm install
-
-3. Create a .env file in the root and add your TMDB API key:
-
-VITE_TMDB_API_KEY=your_tmdb_api_key_here
-
-4. Start the development server:
-npm run dev
-
-
-Our app should now be running at http://localhost:5173!
+- You’ll need a TMDB API key — [Get it here](https://www.themoviedb.org/).
+- Project is deployed live on **Netlify**.
+- Feel free to fork, clone, star, or just vibe with it. 🚀

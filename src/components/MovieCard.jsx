@@ -39,8 +39,6 @@ function MovieCard({ movie }) {
         </div>
 
         <div className="p-4 w-full flex flex-col items-center gap-2">
-          <h3 className="text-yellow-400 font-bold text-base text-center line-clamp-2">{movie.title}</h3>
-
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -51,6 +49,7 @@ function MovieCard({ movie }) {
             {isInWatchList ? '❤️' : '🤍'}
           </button>
         </div>
+
       </div>
 
       {/* Modal */}
