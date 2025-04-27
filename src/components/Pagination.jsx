@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Pagination({ nextPageFn, previousPageFn, pageNumber }) {
   return (
@@ -21,5 +22,11 @@ function Pagination({ nextPageFn, previousPageFn, pageNumber }) {
     </div>
   );
 }
+
+Pagination.propTypes = {
+  nextPageFn: PropTypes.func.isRequired,
+  previousPageFn: PropTypes.func.isRequired,
+  pageNumber: PropTypes.number.isRequired,
+};
 
 export default Pagination;

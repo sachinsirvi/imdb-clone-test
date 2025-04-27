@@ -17,12 +17,13 @@ function NavBar() {
     <div className="bg-gray-900 sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center py-4 px-6 space-y-4 md:space-y-0">
         {/* Logo Section */}
-        <div className="flex items-center space-x-2 cursor-pointer" onClick={handleLogoClick}>
-          <div className="text-yellow-400 text-3xl font-extrabold tracking-wider">
-            ViteFlix
-          </div>
-      
-        </div>
+        <div className="flex items-center cursor-pointer" onClick={handleLogoClick}>
+  <div className="text-3xl font-extrabold tracking-wider">
+    <span className="text-yellow-400">Vite</span>
+    <span className="text-white">Flix</span>
+  </div>
+</div>
+
 
         {/* Navigation Links */}
         <div className="flex space-x-6 md:space-x-8 text-base md:text-lg font-semibold">

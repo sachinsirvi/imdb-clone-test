@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 function Modal({ movie, onClose }) {
   const [trailerKey, setTrailerKey] = useState(null);
@@ -107,5 +108,11 @@ function Modal({ movie, onClose }) {
     </div>
   );
 }
+
+Modal.propTypes = {
+  movie: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
+
 
 export default Modal;

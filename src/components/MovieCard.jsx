@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useWatchList } from '../context/WatchListContext';
 import Modal from './Modal';
+import PropTypes from 'prop-types';
 
 function MovieCard({ movie }) {
   const { watchList, setWatchList } = useWatchList();
@@ -57,5 +58,9 @@ function MovieCard({ movie }) {
     </>
   );
 }
+
+MovieCard.propTypes = {
+  movie: PropTypes.object.isRequired,
+};
 
 export default MovieCard;
