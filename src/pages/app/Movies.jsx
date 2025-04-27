@@ -4,7 +4,6 @@ import MovieCard from '../../components/MovieCard';
 import Pagination from '../../components/Pagination';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMoviePage } from '../../redux/paginationSlice';
-import AppLoader from '../../components/Loader';
 
 function Movies() {
   const moviePage = useSelector((state) => state.pagination.moviePage);
@@ -49,31 +48,61 @@ function Movies() {
     }
   };
 
+  // if loading, show only spinner
   if (loading) {
-    return <AppLoader loading={loading} />;
-  }
-
-  if (error) {
     return (
-      <div className="text-center text-red-500 text-2xl mt-10">
-        Failed to load movies. Please try again later.
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-12 h-12 border-4 border-dashed border-yellow-400 rounded-full animate-spin"></div>
       </div>
     );
   }
 
+
+  // if error
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen text-center space-y-6">
+        {/* Error Icon */}
+        <div className="text-5xl text-red-500">
+          ❗
+        </div>
+  
+        {/* Error Text */}
+        <div>
+          <h2 className="text-2xl font-bold text-red-500 mb-2">
+            Oops! Something went wrong.
+          </h2>
+          <p className="text-gray-400">
+            Failed to load movies. Please try again later.
+          </p>
+        </div>
+      </div>
+    );
+  }
+  
+
+  // Show movies or empty state
   return (
     <div className="p-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6">
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
+      {movies.length > 0 ? (
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6">
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
 
-      <Pagination
-        nextPageFn={handleNext}
-        previousPageFn={handlePrevious}
-        pageNumber={pageNo}
-      />
+          <Pagination
+            nextPageFn={handleNext}
+            previousPageFn={handlePrevious}
+            pageNumber={pageNo}
+          />
+        </>
+      ) : (
+        <div className="flex justify-center items-center min-h-[40vh]">
+          <p className="text-gray-400 text-xl">No movies found.</p>
+        </div>
+      )}
     </div>
   );
 }

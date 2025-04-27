@@ -2,19 +2,19 @@ import React from 'react';
 
 function Pagination({ nextPageFn, previousPageFn, pageNumber }) {
   return (
-    <div className="flex justify-center items-center space-x-4 my-6">
+    <div className="flex justify-center items-center space-x-8 mt-10 mb-2">
       <button
         onClick={previousPageFn}
-        className="bg-gray-900 hover:bg-yellow-300 text-white px-4 py-2 rounded-md transition-colors duration-300"
+        className="bg-gray-800 hover:bg-yellow-400 hover:text-black text-white font-semibold px-6 py-2 rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
       >
         Previous
       </button>
-
-      <span className="text-xl font-semibold text-white">{pageNumber}</span>
-
+      
+      <span className="text-white font-bold text-lg">{pageNumber}</span>
+      
       <button
         onClick={nextPageFn}
-        className="bg-gray-900 hover:bg-yellow-300 text-white px-4 py-2 rounded-md transition-colors duration-300"
+        className="bg-gray-800 hover:bg-yellow-400 hover:text-black text-white font-semibold px-6 py-2 rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
       >
         Next
       </button>

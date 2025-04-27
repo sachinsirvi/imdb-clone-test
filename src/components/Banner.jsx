@@ -1,47 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import image from '../assets/bg.jpeg'; // (backup unused for now)
 
 function Banner() {
-  const [title, setTitle] = useState('');
-  const [banner, setBanner] = useState(null);
+  const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
+    axios
+      .get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
       .then((response) => {
         const result = response.data.results[0];
-        const title = result.title;
-        const image = result.backdrop_path;
-
-        setTitle(title);
-        setBanner(`https://image.tmdb.org/t/p/original/${image}`);
+        setMovie(result);
       })
       .catch((error) => {
         console.error('Error fetching trending movie:', error);
       });
   }, []);
 
-  return (
-    <div className="relative w-full max-w-screen-lg mx-auto transform transition-transform hover:scale-105 duration-300 p-2">
-      <h1 className="text-2xl font-bold mb-4 text-white text-center">Trending Movies</h1>
+  if (!movie || !movie.backdrop_path) {
+    return null;
+  }
 
-      {banner ? (
-        <>
-          <img
-            className="cursor-pointer w-full h-full object-cover rounded-md"
-            src={banner}
-            alt="Trending Movie"
-          />
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center text-2xl font-semibold text-white bg-black bg-opacity-50 px-4 py-2 rounded-md">
-            {title}
-          </div>
-        </>
-      ) : (
-        <div className="h-64 flex items-center justify-center text-gray-400 text-xl">
-          Loading...
+  return (
+    <>
+      {/* Banner */}
+      <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] bg-gray-900 overflow-hidden">
+        <img
+          src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+          alt={movie.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+        <div className="absolute bottom-10 left-6 md:left-12">
+          <h1 className="text-3xl md:text-5xl font-bold text-yellow-400">
+            {movie.title}
+          </h1>
         </div>
-      )}
-    </div>
+      </div>
+
+      {/* Section Heading */}
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-white mt-8">
+        Explore Trending Movies
+      </h2>
+    </>
   );
 }
 

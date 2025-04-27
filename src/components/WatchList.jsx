@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useWatchList } from '../context/WatchListContext';
 import genreMap from '../genremap';
+import Modal from '../components/Modal'; // ✅ Import Modal
 
 function WatchList() {
   const { watchList, setWatchList } = useWatchList();
   const [search, setSearch] = useState('');
   const [genreList, setGenreList] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState(['All Genres']);
+  const [selectedMovie, setSelectedMovie] = useState(null); // ✅ New
+  const [isModalOpen, setIsModalOpen] = useState(false); // ✅ New
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -124,7 +127,14 @@ function WatchList() {
             <tbody className="text-gray-300">
               {filteredMovies.length > 0 ? (
                 filteredMovies.map((movie) => (
-                  <tr key={movie.id} className="hover:bg-gray-700 border-b border-gray-700">
+                  <tr
+                    key={movie.id}
+                    onClick={() => {
+                      setSelectedMovie(movie);
+                      setIsModalOpen(true);
+                    }}
+                    className="hover:bg-gray-700 border-b border-gray-700 cursor-pointer"
+                  >
                     <td className="p-3">
                       <img
                         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
@@ -136,13 +146,14 @@ function WatchList() {
                     <td className="p-3">{movie.vote_average?.toFixed(2)}</td>
                     <td className="p-3">{movie.popularity?.toLocaleString()}</td>
                     <td className="p-3">
-                      {movie.genre_ids
-                        ?.map((id) => genreMap[id])
-                        .join(', ') || 'N/A'}
+                      {movie.genre_ids?.map((id) => genreMap[id]).join(', ') || 'N/A'}
                     </td>
                     <td className="p-3">
                       <button
-                        onClick={() => removeMovie(movie.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeMovie(movie.id);
+                        }}
                         className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md"
                       >
                         Remove
@@ -161,6 +172,17 @@ function WatchList() {
           </table>
         </div>
       </div>
+
+      {/* Modal for showing trailer */}
+      {isModalOpen && (
+        <Modal
+          movie={selectedMovie}
+          onClose={() => {
+            setSelectedMovie(null);
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </>
   );
 }
