@@ -32,24 +32,29 @@ function Banner() {
   return (
     <>
       {/* Banner */}
-      <div className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] bg-gray-900 overflow-hidden">
+      <section className="relative w-full h-[70vh] md:h-[85vh] overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
           alt={movie.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-        <div className="absolute bottom-10 left-6 md:left-12">
-          <h1 className="text-3xl md:text-5xl font-bold text-yellow-400">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+
+        {/* Movie Title */}
+        <div className="absolute bottom-16 left-6 md:left-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-yellow-400 drop-shadow-lg">
             {movie.title}
           </h1>
         </div>
-      </div>
+      </section>
 
-      {/* Section Heading */}
-      <h2 className="text-2xl md:text-3xl font-bold text-center text-white mt-8">
-        Explore Trending Movies
-      </h2>
+      {/* Section Divider */}
+      <div className="bg-black py-8">
+        <h2 className="text-2xl md:text-4xl font-bold text-center text-white mb-2">
+          Explore Trending Movies
+        </h2>
+        <div className="h-1 w-24 bg-yellow-400 mx-auto rounded-full"></div>
+      </div>
     </>
   );
 }

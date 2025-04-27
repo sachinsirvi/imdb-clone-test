@@ -31,12 +31,20 @@ function WatchList() {
   const handleGenreClick = (genre) => {
     if (genre === 'All Genres') {
       setSelectedGenres(['All Genres']);
-    } else if (selectedGenres.includes(genre)) {
-      setSelectedGenres(selectedGenres.filter((g) => g !== genre));
     } else {
-      setSelectedGenres([...selectedGenres, genre]);
+      // If already selected, remove it
+      if (selectedGenres.includes(genre)) {
+        const updatedGenres = selectedGenres.filter((g) => g !== genre);
+        // If no genre left after removing, fallback to 'All Genres'
+        setSelectedGenres(updatedGenres.length > 0 ? updatedGenres : ['All Genres']);
+      } else {
+        // If adding a genre, remove 'All Genres' from selection
+        const updatedGenres = selectedGenres.filter((g) => g !== 'All Genres');
+        setSelectedGenres([...updatedGenres, genre]);
+      }
     }
   };
+  
 
   useEffect(() => {
     const allGenreIds = watchList.flatMap((movie) => movie.genre_ids);
